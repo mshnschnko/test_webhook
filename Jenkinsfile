@@ -16,7 +16,13 @@ pipeline {
         }
         stage('Run python script') {
             steps {
-                bat 'python main.py'
+                script {
+                    if (isUnix()) {
+                        sh 'python main.py'
+                    } else {
+                        bat 'python main.py'
+                    }
+                }
             }
         }
     }
