@@ -14,5 +14,10 @@ pipeline {
                 echo 'Testing...'
             }
         }
+        stage('Run python script') {
+            steps {
+                sh 'python.exe main.py'
+            }
+        }
     }
 }
