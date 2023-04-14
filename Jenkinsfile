@@ -1,4 +1,4 @@
-#!/usr/bin/env groovy
+#!/usr/bin/sh
 
 pipeline {
     agent any
@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Run python script') {
             steps {
-                sh 'python.exe main.py'
+                python main.py
             }
         }
     }
