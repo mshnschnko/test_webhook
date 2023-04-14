@@ -1,3 +1,3 @@
 print("Hello")
 print("MAAAAAN")
-print("/github-webhook/")
+print("/github-gtbc/")
