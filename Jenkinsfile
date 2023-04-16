@@ -18,9 +18,13 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'python main.py'
+                        sh 'docker build -t mshnschnko/test_hook .'
+                        sh 'docker run -i -t mshnschnko/test_hook'
+                        // sh 'python main.py'
                     } else {
-                        bat 'python main.py'
+                        // bat 'python main.py'
+                        bat 'docker build -t mshnschnko/test_hook .'
+                        bat 'docker run -i -t mshnschnko/test_hook'
                     }
                 }
             }
