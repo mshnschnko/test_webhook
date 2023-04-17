@@ -19,14 +19,14 @@ pipeline {
                 withCredentials([file(credentialsId: 'ENV', variable: 'ENV')]) {
                     script {
                         if (isUnix()) {
-                            sh "cp $ENV ./.env"
+                            sh 'cp $ENV ./.env'
                             sh 'docker build -t mshnschnko/test_hook .'
                             sh 'docker run -i -t mshnschnko/test_hook'
                             // sh 'python main.py'
                         } else {
-                            bat "powershell Copy-Item $ENV -Destination ./.env"
+                            bat 'powershell Copy-Item $ENV -Destination ./.env'
                             bat 'docker build -t mshnschnko/test_hook .'
-                            bat 'docker run -i -t mshnschnko/test_hook'
+                            bat 'winpty docker run -i -t mshnschnko/test_hook'
                             // bat 'python main.py'
                         }
                     }
