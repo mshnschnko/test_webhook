@@ -25,7 +25,7 @@ pipeline {
                             // sh 'python main.py'
                         } else {
                             bat 'powershell Copy-Item %ENV% -Destination ./.env'
-                            bat 'docker build -t mshnschnko/test_hook .'
+                            bat 'docker build mshnschnko/test_hook .'
                             bat 'winpty docker run mshnschnko/test_hook'
                             // bat 'python main.py'
                         }
