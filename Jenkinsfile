@@ -59,14 +59,16 @@ pipeline {
             }
         }
         stage('Run container') {
-            echo 'Running container...'
-            script {
-                if (isUnix()) {
-                    sh 'docker build -t mshnschnko/test_hook .'
-                    sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
-                } else {
-                    bat 'docker build -t mshnschnko/test_hook .'
-                    bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
+            steps {
+                echo 'Running container...'
+                script {
+                    if (isUnix()) {
+                        sh 'docker build -t mshnschnko/test_hook .'
+                        sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
+                    } else {
+                        bat 'docker build -t mshnschnko/test_hook .'
+                        bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
+                    }
                 }
             }
         }
