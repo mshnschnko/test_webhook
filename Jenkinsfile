@@ -15,7 +15,7 @@ pipeline {
                     if (isUnix()) {
                         sh 'docker stop jenk_bot || true'
                     } else {
-                        bat sh 'docker stop jenk_bot || true'
+                        bat 'docker stop jenk_bot || true'
                     }
                 }
             }
