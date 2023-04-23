@@ -113,5 +113,5 @@ def backup():
 
 
 if __name__ == '__main__':
-    backup()
+    # backup()
     executor.start_polling(dp)
