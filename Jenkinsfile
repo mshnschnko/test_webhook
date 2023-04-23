@@ -32,22 +32,19 @@ pipeline {
                 }
             }
         }
-        stage('Getting env') {
+        stage('Getting env and buackup') {
             steps {
-                echo 'Getting environment variables...'
+                echo 'Getting environment variables and backuping data...'
                 withCredentials([file(credentialsId: 'ENV', variable: 'ENV')]) {
                     script {
                         if (isUnix()) {
                             sh 'cp $ENV ./.env'
-                            // sh 'docker build -t mshnschnko/test_hook .'
-                            // sh 'docker run mshnschnko/test_hook'
-                            // sh 'python main.py'
+                            sh 'mkdir -p ./storage/temp/'
+                            sh 'python backup.py'
                         } else {
                             bat 'powershell Copy-Item %ENV% -Destination ./.env'
-                            // bat 'docker build -t mshnschnko/test_hook .'
-                            // bat 'docker exec -it mshnschnko/test_hook bash'
-                            // bat 'docker run mshnschnko/test_hook'
-                            // bat 'python main.py'
+                            bat 'If Not Exist ./storage/temp/ mkdir ./storage/temp/'
+                            bat 'python backup.py'
                         }
                     }
                 }
