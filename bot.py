@@ -40,15 +40,17 @@ async def backup_handler(msg: types.Message):
                 except:
                     pass
                 y.download(f'{USERS_STORAGE_FOLDER}{dir_name}/{file_name}', f'{LOCAL_BACKUP_FOLDER}{dir_name}/{file_name}')
-        print(os.getcwd())
+        print(platform.system())
         if platform.system() == 'Windows':
             os.system(f'powershell Compress-Archive -Force "{os.path.join(".", LOCAL_STORAGE, "backup")}"\
-                       {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
+                        {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
         elif platform.system() == 'Linux':
             os.system(f'zip -rF "{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}"')
         y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}', f'{REMOTE_BACKUP_FOLDER}backup.zip', overwrite=True)
         if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")):
                     os.remove(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip"))
+        if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
+             os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
     except Exception as ex:
         await msg.answer(ex)
 
