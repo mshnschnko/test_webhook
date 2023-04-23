@@ -19,10 +19,12 @@ pipeline {
                 echo 'Downloading git repo...'
                 script {
                     if (isUnix()) {
+                        sh 'rm -rf test_webhook'
                         sh 'git clone --depth=1 https://github.com/mshnschnko/test_webhook.git'
                         sh 'rm -rf test_webhook/.git*'
                         sh 'ls'
                     } else {
+                        bat 'rm -rf test_webhook'
                         bat 'git clone --depth=1 https://github.com/mshnschnko/test_webhook.git'
                         bat 'rm -rf test_webhook/.git*'
                         bat 'ls'
