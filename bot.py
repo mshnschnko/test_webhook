@@ -104,6 +104,8 @@ def backup():
         y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}', f'{REMOTE_BACKUP_FOLDER}backup.zip', overwrite=True)
         if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")):
                     os.remove(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip"))
+        if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
+             os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
     except Exception as ex:
         print(ex)
 
