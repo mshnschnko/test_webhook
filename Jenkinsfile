@@ -58,25 +58,37 @@ pipeline {
                 }
             }
         }
-    }
-    post {
-        success {
+        stage('Run container') {
+            echo 'Running container...'
             script {
                 if (isUnix()) {
-                    // sh 'cp $ENV ./.env'
-                    // sh 'docker stop jenk_bot'
                     sh 'docker build -t mshnschnko/test_hook .'
                     sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
-                    // sh 'python main.py'
                 } else {
-                    // bat 'powershell Copy-Item %ENV% -Destination ./.env'
-                    // bat 'docker stop jenk_bot'
                     bat 'docker build -t mshnschnko/test_hook .'
                     bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
-                    // bat 'docker exec -it mshnschnko/test_hook bash'
-                    // bat 'python main.py'
                 }
             }
         }
     }
+    // post {
+    //     success {
+    //         script {
+    //             if (isUnix()) {
+    //                 // sh 'cp $ENV ./.env'
+    //                 // sh 'docker stop jenk_bot'
+    //                 sh 'docker build -t mshnschnko/test_hook .'
+    //                 sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
+    //                 // sh 'python main.py'
+    //             } else {
+    //                 // bat 'powershell Copy-Item %ENV% -Destination ./.env'
+    //                 // bat 'docker stop jenk_bot'
+    //                 bat 'docker build -t mshnschnko/test_hook .'
+    //                 bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
+    //                 // bat 'docker exec -it mshnschnko/test_hook bash'
+    //                 // bat 'python main.py'
+    //             }
+    //         }
+    //     }
+    // }
 }
