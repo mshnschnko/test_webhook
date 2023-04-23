@@ -9,9 +9,15 @@ pipeline {
                 echo 'Building...'
             }
         }
-        stage('Test') {
+        stage('Stop old container') {
             steps {
-                echo 'Testing...'
+                script {
+                    if (isUnix()) {
+                        sh 'docker stop jenk_bot || true'
+                    } else {
+                        bat sh 'docker stop jenk_bot || true'
+                    }
+                }
             }
         }
         stage('Download git repo') {
@@ -58,13 +64,13 @@ pipeline {
             script {
                 if (isUnix()) {
                     // sh 'cp $ENV ./.env'
-                    sh 'docker stop jenk_bot'
+                    // sh 'docker stop jenk_bot'
                     sh 'docker build -t mshnschnko/test_hook .'
                     sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
                     // sh 'python main.py'
                 } else {
                     // bat 'powershell Copy-Item %ENV% -Destination ./.env'
-                    bat 'docker stop jenk_bot'
+                    // bat 'docker stop jenk_bot'
                     bat 'docker build -t mshnschnko/test_hook .'
                     bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
                     // bat 'docker exec -it mshnschnko/test_hook bash'
