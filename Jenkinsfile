@@ -40,11 +40,11 @@ pipeline {
                         if (isUnix()) {
                             sh 'cp $ENV ./.env'
                             sh 'mkdir -p ./storage/temp'
-                            sh 'python backup.py'
+                            // sh 'python backup.py'
                         } else {
                             bat 'powershell Copy-Item %ENV% -Destination ./.env'
                             bat 'If Not Exist storage\\temp mkdir storage\\temp'
-                            bat 'python backup.py'
+                            // bat 'python backup.py'
                         }
                     }
                 }

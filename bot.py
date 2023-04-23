@@ -83,8 +83,31 @@ async def echo_message(msg: types.Message):
         except Exception as ex:
             await msg.answer(ex)
 
-
+def backup():
+    try:
+        # y.download("/tg_storage/", "./storage/backup/")
+        for i in list(y.listdir(USERS_STORAGE_FOLDER)):
+            dir_name = i['name']
+            for j in list(y.listdir(f"{USERS_STORAGE_FOLDER}{dir_name}/")):
+                file_name = j['name']
+                try:
+                    os.mkdir(f'{LOCAL_BACKUP_FOLDER}{dir_name}')
+                except:
+                    pass
+                y.download(f'{USERS_STORAGE_FOLDER}{dir_name}/{file_name}', f'{LOCAL_BACKUP_FOLDER}{dir_name}/{file_name}')
+        print(platform.system())
+        if platform.system() == 'Windows':
+            os.system(f'powershell Compress-Archive -Force "{os.path.join(".", LOCAL_STORAGE, "backup")}"\
+                        {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
+        elif platform.system() == 'Linux':
+            os.system(f'zip -rF "{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}"')
+        y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}', f'{REMOTE_BACKUP_FOLDER}backup.zip', overwrite=True)
+        if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")):
+                    os.remove(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip"))
+    except Exception as ex:
+        print(ex)
 
 
 if __name__ == '__main__':
+    backup()
     executor.start_polling(dp)
