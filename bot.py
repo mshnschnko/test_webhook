@@ -52,7 +52,7 @@ async def backup_handler(msg: types.Message):
         if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
              os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
     except Exception as ex:
-        await msg.answer(ex)
+        await msg.answer(ex.with_traceback())
 
 
 @dp.message_handler(commands=['start'])
@@ -109,7 +109,7 @@ def backup():
         if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
              os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
     except Exception as ex:
-        print(ex)
+        print(ex.with_traceback())
 
 
 if __name__ == '__main__':
