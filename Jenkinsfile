@@ -24,7 +24,7 @@ pipeline {
                         sh 'ls'
                     } else {
                         bat 'git clone --depth=1 https://github.com/mshnschnko/test_webhook.git'
-                        bat 'rm -r -fo test_webhook\.git*'
+                        bat 'rm -r -fo test_webhook/.git*'
                         bat 'ls'
                     }
                 }
