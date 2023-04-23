@@ -45,7 +45,7 @@ pipeline {
                         } else {
                             bat 'powershell Copy-Item %ENV% -Destination ./.env'
                             bat 'If Not Exist storage\\temp mkdir storage\\temp'
-                            bat 'If Not Exist storage\\temp mkdir storage\\backup'
+                            bat 'If Not Exist storage\\backup mkdir storage\\backup'
                             // bat 'python backup.py'
                         }
                     }
