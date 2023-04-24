@@ -40,7 +40,7 @@ async def backup_handler(msg: types.Message):
                 except:
                     pass
                 y.download(f'{USERS_STORAGE_FOLDER}{dir_name}/{file_name}', f'{LOCAL_BACKUP_FOLDER}{dir_name}/{file_name}')
-        print(platform.system())
+        await msg.answer(platform.system())
         if platform.system() == 'Windows':
             os.system(f'powershell Compress-Archive -Force "{os.path.join(".", LOCAL_STORAGE, "backup")}"\
                         {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
