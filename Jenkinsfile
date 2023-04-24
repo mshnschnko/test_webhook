@@ -61,7 +61,7 @@ pipeline {
     }
     post {
         success {
-            withCredentials([file(credentialsId: 'DBENV', variable: 'DBENV')]) {
+            withCredentials([file(credentialsId: 'DB_URL', variable: 'DB_URL')]) {
                 script {
                     if (isUnix()) {
                         // sh 'cp $ENV ./.env'
