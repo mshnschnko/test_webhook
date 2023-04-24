@@ -24,8 +24,8 @@ BOT_OWNER_ID = os.environ.get("BOT_OWNER_ID")
 USERS_STORAGE_FOLDER = "tg_storage/users_files/"
 REMOTE_BACKUP_FOLDER = "tg_storage/files_backup/"
 LOCAL_STORAGE = "storage"
-LOCAL_BACKUP_FOLDER = "./storage/backup/"
-LOCAL_TEMP_FOLDER = "./storage/temp/"
+LOCAL_BACKUP_FOLDER = "storage/backup/"
+LOCAL_TEMP_FOLDER = "storage/temp/"
 
 @dp.message_handler(commands=["backup_storage"])
 async def backup_handler(msg: types.Message):
@@ -47,16 +47,16 @@ async def backup_handler(msg: types.Message):
         await msg.answer(platform.system())
         ext = str()
         if platform.system() == 'Windows':
-            os.system(f'powershell Compress-Archive -Force "{os.path.join(".", LOCAL_STORAGE, "backup")}"\
-                        {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
+            os.system(f'powershell Compress-Archive -Force "{os.path.join(LOCAL_STORAGE, "backup")}"\
+                        {os.path.join(LOCAL_STORAGE, "temp", "backup.zip")}')
             ext = 'zip'
         elif platform.system() == 'Linux':
-            # os.system(f'zip -r {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
-            os.system(f'tar -jcvf {os.path.join(".", LOCAL_STORAGE, "temp", "backup.tar")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
+            # os.system(f'zip -r {os.path.join(LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(LOCAL_STORAGE, "backup")}')
+            os.system(f'tar -jcvf {os.path.join(LOCAL_STORAGE, "temp", "backup.tar")} {os.path.join(LOCAL_STORAGE, "backup")}')
             ext = 'tar'
-        y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", f"backup.{ext}")}', f'{REMOTE_BACKUP_FOLDER}backup.{ext}', overwrite=True)
-        if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", f"backup.{ext}")):
-                    os.remove(os.path.join(".", LOCAL_STORAGE, "temp", f"backup.{ext}"))
+        y.upload(f'{os.path.join(LOCAL_STORAGE, "temp", f"backup.{ext}")}', f'{REMOTE_BACKUP_FOLDER}backup.{ext}', overwrite=True)
+        if os.path.isfile(os.path.join(LOCAL_STORAGE, "temp", f"backup.{ext}")):
+                    os.remove(os.path.join(LOCAL_STORAGE, "temp", f"backup.{ext}"))
         if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
              os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
     except Exception as ex:
@@ -97,31 +97,37 @@ def backup():
     print(y.check_token())
     print(platform.system())
     try:
+        if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
+             os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
         # y.download("/tg_storage/", "./storage/backup/")
         for i in list(y.listdir(USERS_STORAGE_FOLDER)):
             dir_name = i['name']
+            try:
+                os.mkdir(f'{LOCAL_BACKUP_FOLDER}{dir_name}')
+            except Exception as ex:
+                print(ex)
             for j in list(y.listdir(f"{USERS_STORAGE_FOLDER}{dir_name}/")):
                 file_name = j['name']
-                try:
-                    os.mkdir(f'{LOCAL_BACKUP_FOLDER}{dir_name}')
-                except:
-                    pass
                 y.download(f'{USERS_STORAGE_FOLDER}{dir_name}/{file_name}', f'{LOCAL_BACKUP_FOLDER}{dir_name}/{file_name}')
         print(platform.system())
+        ext = str()
         if platform.system() == 'Windows':
-            os.system(f'powershell Compress-Archive -Force "{os.path.join(".", LOCAL_STORAGE, "backup")}"\
-                        {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
+            os.system(f'powershell Compress-Archive -Force "{os.path.join(LOCAL_STORAGE, "backup")}"\
+                        {os.path.join(LOCAL_STORAGE, "temp", "backup.zip")}')
+            ext = 'zip'
         elif platform.system() == 'Linux':
-            os.system(f'zip -rF "{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}"')
-        y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}', f'{REMOTE_BACKUP_FOLDER}backup.zip', overwrite=True)
-        if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")):
-                    os.remove(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip"))
+            # os.system(f'zip -r {os.path.join(LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(LOCAL_STORAGE, "backup")}')
+            os.system(f'tar -jcvf {os.path.join(LOCAL_STORAGE, "temp", "backup.tar")} {os.path.join(LOCAL_STORAGE, "backup")}')
+            ext = 'tar'
+        y.upload(f'{os.path.join(LOCAL_STORAGE, "temp", f"backup.{ext}")}', f'{REMOTE_BACKUP_FOLDER}backup.{ext}', overwrite=True)
+        if os.path.isfile(os.path.join(LOCAL_STORAGE, "temp", f"backup.{ext}")):
+                    os.remove(os.path.join(LOCAL_STORAGE, "temp", f"backup.{ext}"))
         if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
              os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
     except Exception as ex:
-        print(ex.with_traceback())
+        print(ex)
 
 
 if __name__ == '__main__':
-    # backup()
+    backup()
     executor.start_polling(dp)
