@@ -76,7 +76,7 @@ pipeline {
                         // bat 'docker stop jenk_bot'
                         bat 'docker build -t mshnschnko/test_hook .'
                         bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
-                        bat 'powershell New-Item storage/dump.sql'
+                        bat 'If Not Exist storage/dump.sql powershell New-Item storage/dump.sql'
                         bat 'docker exec jenk_bot bash -c "pg_dump --dbname=%DB_URL% -f ~/storage/dump.sql"'
                         // bat 'docker exec -it mshnschnko/test_hook bash'
                         // bat 'python main.py'
