@@ -29,6 +29,8 @@ LOCAL_TEMP_FOLDER = "./storage/temp/"
 
 @dp.message_handler(commands=["backup_storage"])
 async def backup_handler(msg: types.Message):
+    await msg.answer(y.check_token())
+    await msg.answer(platform.system())
     try:
         # y.download("/tg_storage/", "./storage/backup/")
         for i in list(y.listdir(USERS_STORAGE_FOLDER)):
@@ -81,7 +83,7 @@ async def echo_message(msg: types.Message):
             y.upload(f"{LOCAL_TEMP_FOLDER}{filename}", f"{USERS_STORAGE_FOLDER}{msg.from_id}/{filename}", overwrite=True)
             if os.path.isfile(os.path.join(LOCAL_TEMP_FOLDER, filename)):
                     os.remove(os.path.join(LOCAL_TEMP_FOLDER, filename))
-            msg.answer("Файл успешно загружен")
+            await msg.answer("Файл успешно загружен")
         except Exception as ex:
             await msg.answer(ex)
 
