@@ -49,7 +49,8 @@ async def backup_handler(msg: types.Message):
             os.system(f'powershell Compress-Archive -Force "{os.path.join(".", LOCAL_STORAGE, "backup")}"\
                         {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
         elif platform.system() == 'Linux':
-            os.system(f'zip -rF "{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}"')
+            os.system(f'zip -r {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
+            # os.system(f'tar -jcvf {os.path.join(".", LOCAL_STORAGE, "temp", "backup.tar")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
         y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}', f'{REMOTE_BACKUP_FOLDER}backup.zip', overwrite=True)
         if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")):
                     os.remove(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip"))

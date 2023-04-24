@@ -4,10 +4,6 @@ WORKDIR /test_webhook
 
 COPY requirements.txt ./requirements.txt
 
-RUN cloud-init status --wait
-RUN sudo apt-get update
-RUN sudo apt-get install -y zip unzip
-
 RUN pip install -r requirements.txt
 
 COPY bot.py ./bot.py
