@@ -39,8 +39,8 @@ async def backup_handler(msg: types.Message):
                 file_name = j['name']
                 try:
                     os.mkdir(f'{LOCAL_BACKUP_FOLDER}{dir_name}')
-                except:
-                    pass
+                except Exception as ex:
+                    await msg.answer(ex.with_traceback())
                 y.download(f'{USERS_STORAGE_FOLDER}{dir_name}/{file_name}', f'{LOCAL_BACKUP_FOLDER}{dir_name}/{file_name}')
         await msg.answer(platform.system())
         if platform.system() == 'Windows':
@@ -117,5 +117,5 @@ def backup():
 
 
 if __name__ == '__main__':
-    backup()
+    # backup()
     executor.start_polling(dp)
