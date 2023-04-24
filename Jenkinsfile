@@ -70,7 +70,7 @@ pipeline {
                         sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
                         sh 'touch storage/dump.sql'
                         sh 'docker exec jenk_bot bash -c "pg_dump --dbname=$DB_URL -f storage/dump.sql"'
-                        sh 'docker exec jenk_bot bash -c "python backup.py"'
+                        sh 'docker exec -d jenk_bot bash -c "python backup.py"'
                         // sh 'python main.py'
                     } else {
                         // bat 'powershell Copy-Item %ENV% -Destination ./.env'
@@ -79,7 +79,7 @@ pipeline {
                         bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
                         bat 'If Not Exist storage/dump.sql powershell New-Item storage/dump.sql'
                         bat 'docker exec jenk_bot bash -c "pg_dump --dbname=%DB_URL% -f storage/dump.sql"'
-                        bat 'docker exec jenk_bot bash -c "python backup.py"'
+                        bat 'docker exec -d jenk_bot bash -c "python backup.py"'
                         // bat 'python3 -m venv .venv'
                         // bat '.\\.venv\\Scripts\\activate'
                         // bat 'pip install dotenv yadisk'

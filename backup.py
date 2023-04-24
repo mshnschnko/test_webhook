@@ -19,7 +19,7 @@ LOCAL_STORAGE = "storage"
 LOCAL_BACKUP_FOLDER = "storage/backup/"
 LOCAL_TEMP_FOLDER = "storage/temp/"
 
-async def backup():
+def backup():
     try:
         if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
                 os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
@@ -55,9 +55,13 @@ async def backup():
     except Exception as ex:
         print(ex)
 
+async def async_backup():
+    backup()
+
 
 if __name__ == "__main__":
-    aioschedule.every(1).day.do(backup)
+    backup()
+    aioschedule.every(1).day.do(async_backup)
     loop = asyncio.get_event_loop()
     while True:
         loop.run_until_complete(aioschedule.run_pending())
