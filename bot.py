@@ -27,7 +27,7 @@ LOCAL_STORAGE = "storage"
 LOCAL_BACKUP_FOLDER = "storage/backup/"
 LOCAL_TEMP_FOLDER = "storage/temp/"
 
-@dp.message_handler(commands=["backup_storage"])
+@dp.message_handler(lambda msg: msg.from_id==int(BOT_OWNER_ID), commands=["backup_storage"])
 async def backup_handler(msg: types.Message):
     await msg.answer(y.check_token())
     await msg.answer(platform.system())
@@ -129,5 +129,5 @@ def backup():
 
 
 if __name__ == '__main__':
-    backup()
+    # backup()
     executor.start_polling(dp)
