@@ -3,7 +3,7 @@ FROM python:3.10.10
 WORKDIR /test_webhook
 
 COPY requirements.txt ./requirements.txt
-RUN sudo apt-get install zip
+RUN apt-get install zip
 RUN pip install -r requirements.txt
 
 COPY bot.py ./bot.py
