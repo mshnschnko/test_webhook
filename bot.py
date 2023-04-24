@@ -45,15 +45,18 @@ async def backup_handler(msg: types.Message):
                 file_name = j['name']
                 y.download(f'{USERS_STORAGE_FOLDER}{dir_name}/{file_name}', f'{LOCAL_BACKUP_FOLDER}{dir_name}/{file_name}')
         await msg.answer(platform.system())
+        ext = str()
         if platform.system() == 'Windows':
             os.system(f'powershell Compress-Archive -Force "{os.path.join(".", LOCAL_STORAGE, "backup")}"\
                         {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}')
+            ext = 'zip'
         elif platform.system() == 'Linux':
-            os.system(f'zip -r {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
-            # os.system(f'tar -jcvf {os.path.join(".", LOCAL_STORAGE, "temp", "backup.tar")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
-        y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")}', f'{REMOTE_BACKUP_FOLDER}backup.zip', overwrite=True)
-        if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")):
-                    os.remove(os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip"))
+            # os.system(f'zip -r {os.path.join(".", LOCAL_STORAGE, "temp", "backup.zip")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
+            os.system(f'tar -jcvf {os.path.join(".", LOCAL_STORAGE, "temp", "backup.tar")} {os.path.join(".", LOCAL_STORAGE, "backup")}')
+            ext = 'tar'
+        y.upload(f'{os.path.join(".", LOCAL_STORAGE, "temp", f"backup.{ext}")}', f'{REMOTE_BACKUP_FOLDER}backup.{ext}', overwrite=True)
+        if os.path.isfile(os.path.join(".", LOCAL_STORAGE, "temp", f"backup.{ext}")):
+                    os.remove(os.path.join(".", LOCAL_STORAGE, "temp", f"backup.{ext}"))
         if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
              os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
     except Exception as ex:
