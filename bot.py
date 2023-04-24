@@ -73,7 +73,7 @@ async def process_help_command(message: types.Message):
     await message.answer("Напиши мне что-нибудь, и я отправлю этот текст тебе в ответ!")
 
 
-@dp.message_handler(lambda message: not message.text.startswith("/backup_storage"), content_types=["text", "document", "photo", "video", "audio"])
+@dp.message_handler(content_types=["text", "document", "photo", "video", "audio"])
 async def echo_message(msg: types.Message):
     if msg.text is not None:
         await bot.send_message(msg.from_user.id, msg.text)
