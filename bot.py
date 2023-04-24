@@ -88,6 +88,8 @@ async def echo_message(msg: types.Message):
             await msg.answer(ex)
 
 def backup():
+    print(y.check_token())
+    print(platform.system())
     try:
         # y.download("/tg_storage/", "./storage/backup/")
         for i in list(y.listdir(USERS_STORAGE_FOLDER)):
@@ -115,5 +117,5 @@ def backup():
 
 
 if __name__ == '__main__':
-    # backup()
+    backup()
     executor.start_polling(dp)

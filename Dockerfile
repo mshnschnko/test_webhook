@@ -11,4 +11,7 @@ COPY .env ./.env
 
 EXPOSE 5000
 
+RUN mkdir -p ./storage/temp
+RUN mkdir -p ./storage/backup
+
 CMD [ "python", "bot.py" ]
