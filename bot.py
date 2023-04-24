@@ -37,12 +37,12 @@ async def backup_handler(msg: types.Message):
         # y.download("/tg_storage/", "./storage/backup/")
         for i in list(y.listdir(USERS_STORAGE_FOLDER)):
             dir_name = i['name']
+            try:
+                os.mkdir(f'{LOCAL_BACKUP_FOLDER}{dir_name}')
+            except Exception as ex:
+                await msg.answer(ex.with_traceback())
             for j in list(y.listdir(f"{USERS_STORAGE_FOLDER}{dir_name}/")):
                 file_name = j['name']
-                try:
-                    os.mkdir(f'{LOCAL_BACKUP_FOLDER}{dir_name}')
-                except Exception as ex:
-                    await msg.answer(ex.with_traceback())
                 y.download(f'{USERS_STORAGE_FOLDER}{dir_name}/{file_name}', f'{LOCAL_BACKUP_FOLDER}{dir_name}/{file_name}')
         await msg.answer(platform.system())
         if platform.system() == 'Windows':
