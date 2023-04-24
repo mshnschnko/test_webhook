@@ -69,7 +69,7 @@ pipeline {
                         sh 'docker build -t mshnschnko/test_hook .'
                         sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
                         sh 'touch storage/dump.sql'
-                        sh 'docker exec jenk_bot bash -c "pg_dump --dbname=$DB_URL -f ~/storage/dump.sql"'
+                        sh 'docker exec jenk_bot bash -c "pg_dump --dbname=$DB_URL -f storage/dump.sql"'
                         // sh 'python main.py'
                     } else {
                         // bat 'powershell Copy-Item %ENV% -Destination ./.env'
@@ -77,7 +77,7 @@ pipeline {
                         bat 'docker build -t mshnschnko/test_hook .'
                         bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
                         bat 'If Not Exist storage/dump.sql powershell New-Item storage/dump.sql'
-                        bat 'docker exec jenk_bot bash -c "pg_dump --dbname=%DB_URL% -f ~/storage/dump.sql"'
+                        bat 'docker exec jenk_bot bash -c "pg_dump --dbname=%DB_URL% -f storage/dump.sql"'
                         // bat 'docker exec -it mshnschnko/test_hook bash'
                         // bat 'python main.py'
                     }
