@@ -32,6 +32,8 @@ async def backup_handler(msg: types.Message):
     await msg.answer(y.check_token())
     await msg.answer(platform.system())
     try:
+        if os.path.isdir(f'{LOCAL_BACKUP_FOLDER}'):
+             os.system(f'rm -rf {LOCAL_BACKUP_FOLDER}*')
         # y.download("/tg_storage/", "./storage/backup/")
         for i in list(y.listdir(USERS_STORAGE_FOLDER)):
             dir_name = i['name']
