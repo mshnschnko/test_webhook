@@ -17,5 +17,7 @@ EXPOSE 5432
 
 RUN mkdir -p ./storage/temp
 RUN mkdir -p ./storage/backup
+RUN touch storage/dump.sql
+RUN chmod ugo+rwx storage/dump.sql
 
 CMD [ "python", "bot.py" ]
