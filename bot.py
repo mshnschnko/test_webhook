@@ -27,7 +27,7 @@ LOCAL_STORAGE = "storage"
 LOCAL_BACKUP_FOLDER = "./storage/backup/"
 LOCAL_TEMP_FOLDER = "./storage/temp/"
 
-@dp.message_handler(lambda message: message.from_id==int(BOT_OWNER_ID), commands=["backup_storage"])
+@dp.message_handler(commands=["backup_storage"])
 async def backup_handler(msg: types.Message):
     try:
         # y.download("/tg_storage/", "./storage/backup/")
