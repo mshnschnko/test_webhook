@@ -3,7 +3,11 @@ FROM python:3.10.10
 WORKDIR /test_webhook
 
 COPY requirements.txt ./requirements.txt
-RUN apt-get install zip
+
+RUN cloud-init status --wait
+RUN sudo apt-get update
+RUN sudo apt-get install -y zip unzip
+
 RUN pip install -r requirements.txt
 
 COPY bot.py ./bot.py
