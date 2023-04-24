@@ -61,20 +61,24 @@ pipeline {
     }
     post {
         success {
-            script {
-                if (isUnix()) {
-                    // sh 'cp $ENV ./.env'
-                    // sh 'docker stop jenk_bot'
-                    sh 'docker build -t mshnschnko/test_hook .'
-                    sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
-                    // sh 'python main.py'
-                } else {
-                    // bat 'powershell Copy-Item %ENV% -Destination ./.env'
-                    // bat 'docker stop jenk_bot'
-                    bat 'docker build -t mshnschnko/test_hook .'
-                    bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
-                    // bat 'docker exec -it mshnschnko/test_hook bash'
-                    // bat 'python main.py'
+            withCredentials([file(credentialsId: 'DBENV', variable: 'DBENV')]) {
+                script {
+                    if (isUnix()) {
+                        // sh 'cp $ENV ./.env'
+                        // sh 'docker stop jenk_bot'
+                        sh 'docker build -t mshnschnko/test_hook .'
+                        sh 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
+                        sh 'docker exec jenk_bot bash -c "pg_dump --dbname=$DB_URL -f ~/storage/dump.sql"'
+                        // sh 'python main.py'
+                    } else {
+                        // bat 'powershell Copy-Item %ENV% -Destination ./.env'
+                        // bat 'docker stop jenk_bot'
+                        bat 'docker build -t mshnschnko/test_hook .'
+                        bat 'docker run --name jenk_bot -d --rm mshnschnko/test_hook'
+                        bat 'docker exec jenk_bot bash -c "pg_dump --dbname=%DB_URL% -f ~/storage/dump.sql"'
+                        // bat 'docker exec -it mshnschnko/test_hook bash'
+                        // bat 'python main.py'
+                    }
                 }
             }
         }
